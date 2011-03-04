@@ -31,19 +31,20 @@ public class bppl extends PlayerListener
             String msg = "";
             if(canUse)
             {
-                if(plugin.playersUsing.containsKey(event.getPlayer().getName()))
+                if(plugin.playersUsing.containsKey(event.getPlayer().getName()) && split.length == 1)
                 {
                     plugin.playersUsing.remove(event.getPlayer().getName());
                     msg = ChatColor.GREEN + "BlastPick disabled";
                 } else {
                     int length = 10;
 
-                    if(split.length > 2)
+                    if(split.length > 1)
                     {
-                        length = Integer.parseInt(split[2]);
+                        length = Integer.parseInt(split[1]);
                     }
 
                     msg = ChatColor.GREEN + "BlastPick length set to " + length;
+                    plugin.playersUsing.remove(event.getPlayer().getName());
                     plugin.playersUsing.put(event.getPlayer().getName(), length);
                 }
             } else {

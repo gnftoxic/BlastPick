@@ -30,8 +30,10 @@ public class bpm extends JavaPlugin
             if(pm.getPlugin("Permissions").isEnabled())
             {
                 perms = ((Permissions)pm.getPlugin("Permissions"));
+                perms.setupPermissions();
                 ph = perms.getHandler();
                 log.log(Level.INFO, "[" + name + "] Permissions " + perms.getDescription().getVersion() + " enabled for use.");
+                log.log(Level.INFO, "[" + name + "] Permissions have priority; being an op with BlastPick will do nothing.");
             }
         } catch(NullPointerException npe)
         {
