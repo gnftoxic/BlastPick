@@ -20,6 +20,7 @@ public class bpm extends JavaPlugin
     public bpbl blockListener = new bpbl(this);
     public bppl playerListener = new bppl(this);
     public HashMap<String, Integer> playersUsing = new HashMap<String, Integer>();
+    public int bplimit = 20;
     
     public void onEnable()
     {

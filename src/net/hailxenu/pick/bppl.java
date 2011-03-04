@@ -41,6 +41,10 @@ public class bppl extends PlayerListener
                     if(split.length > 1)
                     {
                         length = Integer.parseInt(split[1]);
+                        if(length > plugin.bplimit)
+                        {
+                            length = plugin.bplimit;
+                        }
                     }
 
                     msg = ChatColor.GREEN + "BlastPick length set to " + length;
