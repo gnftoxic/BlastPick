@@ -44,15 +44,7 @@ public class bpbl extends BlockListener
                     {
                         Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX(), bl.getBlockY() - pos, bl.getBlockZ()));
 
-                        switch(nb.getType())
-                        {
-                            case CHEST:
-                            case FURNACE:
-                            case WORKBENCH:
-                                break;
-                            default:
-                                nb.setType(Material.AIR);
-                        }
+                        replaceBlock(nb);
                     }
                 } else if(x > -55)
                 {
@@ -69,15 +61,7 @@ public class bpbl extends BlockListener
                         {
                             Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX(), bl.getBlockY(), bl.getBlockZ() + pos));
 
-                            switch(nb.getType())
-                            {
-                                case CHEST:
-                                case FURNACE:
-                                case WORKBENCH:
-                                    break;
-                                default:
-                                    nb.setType(Material.AIR);
-                            }
+                            replaceBlock(nb);
                         }
                     }
                     if(dir > 60 && dir <= 120)
@@ -86,15 +70,7 @@ public class bpbl extends BlockListener
                         {
                             Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX() - pos, bl.getBlockY(), bl.getBlockZ()));
 
-                            switch(nb.getType())
-                            {
-                                case CHEST:
-                                case FURNACE:
-                                case WORKBENCH:
-                                    break;
-                                default:
-                                    nb.setType(Material.AIR);
-                            }
+                            replaceBlock(nb);
                         }
                     }
                     if(dir > 120 && dir <= 210)
@@ -103,15 +79,7 @@ public class bpbl extends BlockListener
                         {
                             Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX(), bl.getBlockY(), bl.getBlockZ() - pos));
 
-                            switch(nb.getType())
-                            {
-                                case CHEST:
-                                case FURNACE:
-                                case WORKBENCH:
-                                    break;
-                                default:
-                                    nb.setType(Material.AIR);
-                            }
+                            replaceBlock(nb);
                         }
                     }
                     if(dir > 210 && dir <= 300)
@@ -120,15 +88,7 @@ public class bpbl extends BlockListener
                         {
                             Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX() + pos, bl.getBlockY(), bl.getBlockZ()));
 
-                            switch(nb.getType())
-                            {
-                                case CHEST:
-                                case FURNACE:
-                                case WORKBENCH:
-                                    break;
-                                default:
-                                    nb.setType(Material.AIR);
-                            }
+                            replaceBlock(nb);
                         }
                     }
                 } else if(x <= -35)
@@ -138,18 +98,23 @@ public class bpbl extends BlockListener
                     {
                         Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX(), bl.getBlockY() + pos, bl.getBlockZ()));
 
-                        switch(nb.getType())
-                        {
-                            case CHEST:
-                            case FURNACE:
-                            case WORKBENCH:
-                                break;
-                            default:
-                                nb.setType(Material.AIR);
-                        }
+                        replaceBlock(nb);
                     }
                 }
             }
+        }
+    }
+
+    public void replaceBlock(Block b)
+    {
+        switch(b.getType())
+        {
+            case CHEST:
+            case FURNACE:
+            case WORKBENCH:
+                return;
+            default:
+                b.setType(Material.AIR);
         }
     }
 }
