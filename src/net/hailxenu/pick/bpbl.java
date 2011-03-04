@@ -1,6 +1,10 @@
 package net.hailxenu.pick;
 
 import java.util.logging.Level;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockRightClickEvent;
@@ -31,18 +35,120 @@ public class bpbl extends BlockListener
             {
                 int x = (int)p.getLocation().getPitch();
 
-                if(x >= 45)
+                Location bl = event.getBlock().getLocation();
+
+                if(x >= 35)
                 {
                     // DOWN
-                } else if(x > -45)
+                    for(int pos = 0; pos < plugin.playersUsing.get(p.getName()); pos++)
+                    {
+                        Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX(), bl.getBlockY() - pos, bl.getBlockZ()));
+
+                        switch(nb.getType())
+                        {
+                            case CHEST:
+                            case FURNACE:
+                            case WORKBENCH:
+                                break;
+                            default:
+                                nb.setType(Material.AIR);
+                        }
+                    }
+                } else if(x > -55)
                 {
                     // STRAIGHT
-                } else if(x <= -45)
+                    int dir = (int)p.getLocation().getYaw();
+                    if(dir < 0)
+                    {
+                        dir *= -1;
+                    }
+                    dir %= 360;
+                    if(dir >= 300 || (dir >= 0 && dir <= 60))
+                    {
+                        for(int pos = 0; pos < plugin.playersUsing.get(p.getName()); pos++)
+                        {
+                            Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX(), bl.getBlockY(), bl.getBlockZ() + pos));
+
+                            switch(nb.getType())
+                            {
+                                case CHEST:
+                                case FURNACE:
+                                case WORKBENCH:
+                                    break;
+                                default:
+                                    nb.setType(Material.AIR);
+                            }
+                        }
+                    }
+                    if(dir > 60 && dir <= 120)
+                    {
+                        for(int pos = 0; pos < plugin.playersUsing.get(p.getName()); pos++)
+                        {
+                            Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX() - pos, bl.getBlockY(), bl.getBlockZ()));
+
+                            switch(nb.getType())
+                            {
+                                case CHEST:
+                                case FURNACE:
+                                case WORKBENCH:
+                                    break;
+                                default:
+                                    nb.setType(Material.AIR);
+                            }
+                        }
+                    }
+                    if(dir > 120 && dir <= 210)
+                    {
+                        for(int pos = 0; pos < plugin.playersUsing.get(p.getName()); pos++)
+                        {
+                            Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX(), bl.getBlockY(), bl.getBlockZ() - pos));
+
+                            switch(nb.getType())
+                            {
+                                case CHEST:
+                                case FURNACE:
+                                case WORKBENCH:
+                                    break;
+                                default:
+                                    nb.setType(Material.AIR);
+                            }
+                        }
+                    }
+                    if(dir > 210 && dir <= 300)
+                    {
+                        for(int pos = 0; pos < plugin.playersUsing.get(p.getName()); pos++)
+                        {
+                            Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX() + pos, bl.getBlockY(), bl.getBlockZ()));
+
+                            switch(nb.getType())
+                            {
+                                case CHEST:
+                                case FURNACE:
+                                case WORKBENCH:
+                                    break;
+                                default:
+                                    nb.setType(Material.AIR);
+                            }
+                        }
+                    }
+                } else if(x <= -35)
                 {
                     // UP
+                    for(int pos = 0; pos < plugin.playersUsing.get(p.getName()); pos++)
+                    {
+                        Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX(), bl.getBlockY() + pos, bl.getBlockZ()));
+
+                        switch(nb.getType())
+                        {
+                            case CHEST:
+                            case FURNACE:
+                            case WORKBENCH:
+                                break;
+                            default:
+                                nb.setType(Material.AIR);
+                        }
+                    }
                 }
-            } else {
-                plugin.log.log(Level.INFO, p.getName() + " was not allowed to use /bp");
             }
         }
     }
