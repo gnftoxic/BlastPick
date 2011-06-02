@@ -4,13 +4,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Type;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerListener;
 
 public class bpbl extends PlayerListener
 {
     private bpm plugin;
+    private static int BedrockThreshold = 8; // let's be on the safe side
 
     public bpbl(bpm plugin)
     {
@@ -20,8 +21,15 @@ public class bpbl extends PlayerListener
     @Override
     public void onPlayerInteract(PlayerInteractEvent event)
     {
-        if(!event.getAction().equals(event.getAction().RIGHT_CLICK_BLOCK))
+    	// since we cannot unregister the handler, do not act when the plugin is disabled
+    	if ( !this.plugin.isEnabled ) {
+    		return;
+    	}
+    	
+        event.getAction();
+		if(!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             return;
+		}
 
         Player p = event.getPlayer();
         if (p.getItemInHand().getTypeId() == 278)
@@ -47,11 +55,8 @@ public class bpbl extends PlayerListener
                 } else if (x > -55)
                 {
                     int dir = (int)p.getLocation().getYaw();
-                    if (dir < 0)
-                    {
-                        dir *= -1;
-                    }
-                    dir %= 360;
+                    
+                    dir = (dir + 360) % 360;
                     if ((dir >= 300) || ((dir >= 0) && (dir <= 60)))
                     {
                         for (int pos = 0; pos < ((Integer)this.plugin.playersUsing.get(p.getName())).intValue(); pos++)
@@ -103,7 +108,12 @@ public class bpbl extends PlayerListener
             case FURNACE:
             case CHEST:
             case WORKBENCH:
+            case DISPENSER:
                 return;
+            case BEDROCK:
+            	if ( b.getLocation().getBlockY() > bpbl.BedrockThreshold ) {
+            		b.setType(Material.AIR);
+            	}
             default:
                 b.setType(Material.AIR);
         }

@@ -17,13 +17,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class bpm extends JavaPlugin
 {
     public Logger log = Logger.getLogger("Minecraft");
-    public String name = "BlastPick";
-    public String ver = "1.0.1";
     public Permissions perms = null;
     public PermissionHandler ph;
     public bpbl blockListener = new bpbl(this);
-    public HashMap<String, Integer> playersUsing = new HashMap();
+    public HashMap<String, Integer> playersUsing = new HashMap<String, Integer>();
     public int bplimit = 20;
+    
+    public boolean isEnabled = false;
+    private boolean hasRegistered = false;
 
     @Override
     public void onEnable()
@@ -35,32 +36,38 @@ public class bpm extends JavaPlugin
             {
                 this.perms = ((Permissions)pm.getPlugin("Permissions"));
                 this.ph = this.perms.getHandler();
-                this.log.log(Level.INFO, "[" + this.name + "] Permissions " + this.perms.getDescription().getVersion() + " enabled for use.");
-                this.log.log(Level.INFO, "[" + this.name + "] Permissions have priority; being an op with BlastPick will do nothing.");
+                this.log(this.perms.getDescription().getFullName() + " enabled for use.");
+                this.log(this.perms.getDescription().getName() + " have priority; being an op with BlastPick will do nothing.");
             }
         }
         catch (NullPointerException npe)
         {
             this.perms = null;
-            this.log.log(Level.INFO, "[" + this.name + "] Permissions not enabled.");
+            this.log(this.perms.getDescription().getName() + " not enabled.");
+        }
+        
+        if ( !this.hasRegistered ) {
+        	// only enable once
+        	pm.registerEvent(Type.PLAYER_INTERACT, this.blockListener, Priority.Normal, this);
+        	this.hasRegistered = true;
         }
 
-        pm.registerEvent(Type.PLAYER_INTERACT, this.blockListener, Priority.Normal, this);
-
-        this.log.log(Level.INFO, "[" + this.name + "] " + this.name + " " + this.ver + " enabled successfully.");
+        this.log(this.getDescription().getFullName() + " enabled successfully.");
+        this.isEnabled = true;
     }
 
     @Override
     public void onDisable()
     {
-        this.log.log(Level.INFO, "[" + this.name + "] " + this.name + " " + this.ver + " disabled successfully.");
+    	this.isEnabled = false;
+        this.log(this.getDescription().getFullName() + " disabled successfully.");
     }
 
 
     @Override
     public boolean onCommand(CommandSender cs, Command c, String command, String[] args)
     {
-        if (command.equalsIgnoreCase("bp"))
+        if ( this.isEnabled && command.equalsIgnoreCase("bp") )
         {
           boolean canUse = false;
           if (this.perms != null)
@@ -99,5 +106,9 @@ public class bpm extends JavaPlugin
           return true;
         }
         return false;
+    }
+    
+    public void log(String string) {
+    	this.log.log(Level.INFO, "[" + this.getDescription().getName() + "] "+ string);
     }
 }
