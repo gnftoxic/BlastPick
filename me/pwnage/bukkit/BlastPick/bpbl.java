@@ -22,7 +22,7 @@ public class bpbl extends PlayerListener
     public void onPlayerInteract(PlayerInteractEvent event)
     {
     	// since we cannot unregister the handler, do not act when the plugin is disabled
-    	if ( !this.plugin.isEnabled ) {
+    	if ( !this.plugin.isEnabled() ) {
     		return;
     	}
     	
