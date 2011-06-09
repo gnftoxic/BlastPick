@@ -42,7 +42,7 @@ public class bpm extends JavaPlugin
         catch (NullPointerException npe)
         {
             this.perms = null;
-            this.log(this.perms.getDescription().getName() + " not enabled.");
+            this.log("Permissions Plugin NOT Found, using OP!.");
         }
         
         if ( !this.hasRegistered ) {

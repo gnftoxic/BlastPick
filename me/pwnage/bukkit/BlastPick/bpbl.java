@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerListener;
 
@@ -50,7 +51,7 @@ public class bpbl extends PlayerListener
                     for (int pos = 0; pos < ((Integer)this.plugin.playersUsing.get(p.getName())).intValue(); pos++)
                     {
                         Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX(), bl.getBlockY() - pos, bl.getBlockZ()));
-                        replaceBlock(nb);
+                        replaceBlock(nb, p);
                     }
                 } else if (x > -55)
                 {
@@ -62,7 +63,7 @@ public class bpbl extends PlayerListener
                         for (int pos = 0; pos < ((Integer)this.plugin.playersUsing.get(p.getName())).intValue(); pos++)
                         {
                             Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX(), bl.getBlockY(), bl.getBlockZ() + pos));
-                            replaceBlock(nb);
+                            replaceBlock(nb, p);
                         }
                     }
                     if ((dir > 60) && (dir <= 120))
@@ -70,7 +71,7 @@ public class bpbl extends PlayerListener
                         for (int pos = 0; pos < ((Integer)this.plugin.playersUsing.get(p.getName())).intValue(); pos++)
                         {
                             Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX() - pos, bl.getBlockY(), bl.getBlockZ()));
-                            replaceBlock(nb);
+                            replaceBlock(nb, p);
                         }
                     }
                     if ((dir > 120) && (dir <= 210))
@@ -78,7 +79,7 @@ public class bpbl extends PlayerListener
                         for (int pos = 0; pos < ((Integer)this.plugin.playersUsing.get(p.getName())).intValue(); pos++)
                         {
                             Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX(), bl.getBlockY(), bl.getBlockZ() - pos));
-                            replaceBlock(nb);
+                            replaceBlock(nb, p);
                         }
                     }
                     if ((dir > 210) && (dir <= 300))
@@ -86,7 +87,7 @@ public class bpbl extends PlayerListener
                         for (int pos = 0; pos < ((Integer)this.plugin.playersUsing.get(p.getName())).intValue(); pos++)
                         {
                             Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX() + pos, bl.getBlockY(), bl.getBlockZ()));
-                            replaceBlock(nb);
+                            replaceBlock(nb, p);
                         }
                     }
                 } else if (x <= -35)
@@ -94,14 +95,14 @@ public class bpbl extends PlayerListener
                     for (int pos = 0; pos < ((Integer)this.plugin.playersUsing.get(p.getName())).intValue(); pos++)
                     {
                         Block nb = p.getWorld().getBlockAt(new Location(p.getWorld(), bl.getBlockX(), bl.getBlockY() + pos, bl.getBlockZ()));
-                        replaceBlock(nb);
+                        replaceBlock(nb, p);
                     }
                 }
             }
         }
     }
 
-    public void replaceBlock(Block b)
+    public void replaceBlock(Block b, Player p)
     {
         switch (b.getType())
         {
@@ -112,9 +113,11 @@ public class bpbl extends PlayerListener
                 return;
             case BEDROCK:
             	if ( b.getLocation().getBlockY() > bpbl.BedrockThreshold ) {
+            		this.plugin.getServer().getPluginManager().callEvent(new BlockBreakEvent(b, p));
             		b.setType(Material.AIR);
             	}
             default:
+            	this.plugin.getServer().getPluginManager().callEvent(new BlockBreakEvent(b, p));
                 b.setType(Material.AIR);
         }
     }
