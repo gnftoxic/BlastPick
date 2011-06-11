@@ -23,7 +23,6 @@ public class bpm extends JavaPlugin
     public HashMap<String, Integer> playersUsing = new HashMap<String, Integer>();
     public int bplimit = 20;
     
-    public boolean isEnabled = false;
     private boolean hasRegistered = false;
 
     @Override
@@ -43,7 +42,7 @@ public class bpm extends JavaPlugin
         catch (NullPointerException npe)
         {
             this.perms = null;
-            this.log(this.perms.getDescription().getName() + " not enabled.");
+            this.log("Permissions Plugin NOT Found, using OP!.");
         }
         
         if ( !this.hasRegistered ) {
@@ -53,13 +52,11 @@ public class bpm extends JavaPlugin
         }
 
         this.log(this.getDescription().getFullName() + " enabled successfully.");
-        this.isEnabled = true;
     }
 
     @Override
     public void onDisable()
     {
-    	this.isEnabled = false;
         this.log(this.getDescription().getFullName() + " disabled successfully.");
     }
 
@@ -67,7 +64,7 @@ public class bpm extends JavaPlugin
     @Override
     public boolean onCommand(CommandSender cs, Command c, String command, String[] args)
     {
-        if ( this.isEnabled && command.equalsIgnoreCase("bp") )
+        if ( this.isEnabled() && command.equalsIgnoreCase("bp") )
         {
           boolean canUse = false;
           if (this.perms != null)
