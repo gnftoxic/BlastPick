@@ -122,6 +122,7 @@ public class bpbl extends PlayerListener
                         b.setType(Material.AIR);
                     }
             	}
+                break;
             default:
                 BlockBreakEvent bbe = new BlockBreakEvent(b, p);
                 this.plugin.getServer().getPluginManager().callEvent(bbe);
