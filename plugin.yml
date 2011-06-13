@@ -1,0 +1,9 @@
+name: BlastPick
+version: 1.3
+main: me.pwnage.bukkit.BlastPick.bpm
+author: gnftoxic
+description: Tool.
+commands:
+  bp:
+    description: An easy way to clear blocks out of your way.
+    usage: /<command> [size]
